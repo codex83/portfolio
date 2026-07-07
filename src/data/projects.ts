@@ -102,6 +102,31 @@ export const projects: Project[] = [
     results:
       "Final tuned LightGBM achieved 99.1% test accuracy and 99.1% weighted F1 on a 20% held-out split. Top 10 ranked unclassified candidates all scored a confirmation probability of 1.0. Engineered SNR features were the most influential predictors.",
     github: "https://github.com/codex83/Exo-Hunter",
+    featured: true,
+  },
+  {
+    slug: "databricks-retail-forecasting",
+    name: "Databricks Retail Forecasting",
+    tagline: "Production MLOps pipeline forecasting daily grocery sales across 54 stores with LightGBM on Databricks.",
+    problem:
+      "Corporación Favorita, one of Ecuador's largest grocery chains, needs accurate daily unit-sales forecasts at the store-product level across 54 locations, 4,100 products, and 125M+ transactions. Granular demand prediction requires capturing temporal patterns, seasonality, oil-price shocks, and promotional effects — while raw RMSE metrics are completely dominated by a tiny fraction of outlier rows (0.47% of rows with sales >100 inflate RMSE from 7.22 to 195.23). A log-transformed target and a medallion lakehouse architecture solve both problems.",
+    tools: [
+      { category: "Platform", items: ["Databricks (serverless compute)", "Delta Lake", "Unity Catalog"] },
+      { category: "Processing", items: ["Apache Spark", "PySpark window functions"] },
+      { category: "Modeling", items: ["LightGBM (champion)", "XGBoost (challenger)"] },
+      { category: "MLOps", items: ["MLflow Experiment Tracking", "MLflow Model Registry", "Databricks Model Serving"] },
+    ],
+    flow: [
+      { label: "Bronze Layer", description: "Raw CSV ingestion into Delta tables with full source fidelity — no transformations, maximum auditability." },
+      { label: "Silver Layer", description: "Cleaning, enrichment via joins (stores, items, oil prices, locale-aware holidays), and data normalization." },
+      { label: "Gold Layer", description: "Lag features (1/7/14-day) and rolling statistics (7/30-day means) via PySpark window functions — model-ready dataset." },
+      { label: "Experiment Training", description: "LightGBM vs. XGBoost trained on log1p-transformed target; logged to MLflow with full parameter tracking." },
+      { label: "Model Registry & Aliasing", description: "Champion (LightGBM) and challenger (XGBoost) registered with aliases for governed promotion." },
+      { label: "A/B Serving", description: "Live REST endpoint with 80/20 traffic split between champion and challenger for production validation." },
+    ],
+    results:
+      "LightGBM achieved validation log-RMSE of 0.4824 and a Kaggle public leaderboard score of 0.75292 across 3,370,464 test predictions. A/B test confirmed near-identical champion vs. challenger predictions (mean ≈ 1.22). The 7-day rolling average was the strongest feature signal, followed by 30-day trends and oil prices.",
+    github: "https://github.com/codex83/databricks-retail-forecasting",
   },
   {
     slug: "turingbots-ai-se",
@@ -278,30 +303,6 @@ export const projects: Project[] = [
       "The cost-sensitive \"v3\" stacking model identifies 93 more defaulters than the profit-tuned \"v2\" CatBoost model, for a negligible reduction in peak profit, with a better precision-recall trade-off. SHAP shows external credit scores as the most significant predictors.",
     github: "https://github.com/codex83/Credit-Risk-Showdown",
     caveat: "Raw AUC/AUPRC values aren't persisted in the repo — figures above are from the README narrative.",
-  },
-  {
-    slug: "databricks-retail-forecasting",
-    name: "Databricks Retail Forecasting",
-    tagline: "Production MLOps pipeline forecasting daily grocery sales across 54 stores with LightGBM on Databricks.",
-    problem:
-      "Corporación Favorita, one of Ecuador's largest grocery chains, needs accurate daily unit-sales forecasts at the store-product level across 54 locations, 4,100 products, and 125M+ transactions. Granular demand prediction requires capturing temporal patterns, seasonality, oil-price shocks, and promotional effects — while raw RMSE metrics are completely dominated by a tiny fraction of outlier rows (0.47% of rows with sales >100 inflate RMSE from 7.22 to 195.23). A log-transformed target and a medallion lakehouse architecture solve both problems.",
-    tools: [
-      { category: "Platform", items: ["Databricks (serverless compute)", "Delta Lake", "Unity Catalog"] },
-      { category: "Processing", items: ["Apache Spark", "PySpark window functions"] },
-      { category: "Modeling", items: ["LightGBM (champion)", "XGBoost (challenger)"] },
-      { category: "MLOps", items: ["MLflow Experiment Tracking", "MLflow Model Registry", "Databricks Model Serving"] },
-    ],
-    flow: [
-      { label: "Bronze Layer", description: "Raw CSV ingestion into Delta tables with full source fidelity — no transformations, maximum auditability." },
-      { label: "Silver Layer", description: "Cleaning, enrichment via joins (stores, items, oil prices, locale-aware holidays), and data normalization." },
-      { label: "Gold Layer", description: "Lag features (1/7/14-day) and rolling statistics (7/30-day means) via PySpark window functions — model-ready dataset." },
-      { label: "Experiment Training", description: "LightGBM vs. XGBoost trained on log1p-transformed target; logged to MLflow with full parameter tracking." },
-      { label: "Model Registry & Aliasing", description: "Champion (LightGBM) and challenger (XGBoost) registered with aliases for governed promotion." },
-      { label: "A/B Serving", description: "Live REST endpoint with 80/20 traffic split between champion and challenger for production validation." },
-    ],
-    results:
-      "LightGBM achieved validation log-RMSE of 0.4824 and a Kaggle public leaderboard score of 0.75292 across 3,370,464 test predictions. A/B test confirmed near-identical champion vs. challenger predictions (mean ≈ 1.22). The 7-day rolling average was the strongest feature signal, followed by 30-day trends and oil prices.",
-    github: "https://github.com/codex83/databricks-retail-forecasting",
   },
   {
     slug: "nlp-fundamentals",
