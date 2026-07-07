@@ -280,6 +280,52 @@ export const projects: Project[] = [
     caveat: "Raw AUC/AUPRC values aren't persisted in the repo — figures above are from the README narrative.",
   },
   {
+    slug: "databricks-retail-forecasting",
+    name: "Databricks Retail Forecasting",
+    tagline: "Production MLOps pipeline forecasting daily grocery sales across 54 stores with LightGBM on Databricks.",
+    problem:
+      "Corporación Favorita, one of Ecuador's largest grocery chains, needs accurate daily unit-sales forecasts at the store-product level across 54 locations, 4,100 products, and 125M+ transactions. Granular demand prediction requires capturing temporal patterns, seasonality, oil-price shocks, and promotional effects — while raw RMSE metrics are completely dominated by a tiny fraction of outlier rows (0.47% of rows with sales >100 inflate RMSE from 7.22 to 195.23). A log-transformed target and a medallion lakehouse architecture solve both problems.",
+    tools: [
+      { category: "Platform", items: ["Databricks (serverless compute)", "Delta Lake", "Unity Catalog"] },
+      { category: "Processing", items: ["Apache Spark", "PySpark window functions"] },
+      { category: "Modeling", items: ["LightGBM (champion)", "XGBoost (challenger)"] },
+      { category: "MLOps", items: ["MLflow Experiment Tracking", "MLflow Model Registry", "Databricks Model Serving"] },
+    ],
+    flow: [
+      { label: "Bronze Layer", description: "Raw CSV ingestion into Delta tables with full source fidelity — no transformations, maximum auditability." },
+      { label: "Silver Layer", description: "Cleaning, enrichment via joins (stores, items, oil prices, locale-aware holidays), and data normalization." },
+      { label: "Gold Layer", description: "Lag features (1/7/14-day) and rolling statistics (7/30-day means) via PySpark window functions — model-ready dataset." },
+      { label: "Experiment Training", description: "LightGBM vs. XGBoost trained on log1p-transformed target; logged to MLflow with full parameter tracking." },
+      { label: "Model Registry & Aliasing", description: "Champion (LightGBM) and challenger (XGBoost) registered with aliases for governed promotion." },
+      { label: "A/B Serving", description: "Live REST endpoint with 80/20 traffic split between champion and challenger for production validation." },
+    ],
+    results:
+      "LightGBM achieved validation log-RMSE of 0.4824 and a Kaggle public leaderboard score of 0.75292 across 3,370,464 test predictions. A/B test confirmed near-identical champion vs. challenger predictions (mean ≈ 1.22). The 7-day rolling average was the strongest feature signal, followed by 30-day trends and oil prices.",
+    github: "https://github.com/codex83/databricks-retail-forecasting",
+  },
+  {
+    slug: "life-in-weeks",
+    name: "Life in Weeks",
+    tagline: "Your entire life, mapped as a grid of dots — one per week.",
+    problem:
+      "Abstract concepts of time and mortality are hard to internalize. This visualization makes them visceral: enter your birth date and see every week of a ~66-year life as a single dot — filled for weeks already lived, empty for weeks ahead. Alongside the grid, computed statistics put your time in personal, societal, and cosmic context.",
+    tools: [
+      { category: "Frontend", items: ["Vanilla HTML", "CSS Grid", "CSS custom properties", "CSS animations"] },
+      { category: "Logic", items: ["JavaScript ES6", "requestAnimationFrame", "Local date parsing (timezone-safe)"] },
+    ],
+    flow: [
+      { label: "Input Screen", description: "User enters birth date; validation rejects future dates and triggers error feedback." },
+      { label: "Date Calculation", description: "Local-date parsing (avoids UTC timezone issues) computes weeks lived, current week index, and weeks remaining." },
+      { label: "Grid Rendering", description: "52 columns × 66 rows CSS grid built programmatically; dots colored by lived/current/future state." },
+      { label: "Progressive Reveal", description: "requestAnimationFrame loop reveals dots in sequence for a dramatic entrance animation." },
+      { label: "Statistics Cards", description: "Three card panels compute personal metrics (heartbeats, breaths, steps), societal context (global births, GDP), and cosmic scale (space distance traveled, full moons, supernovas)." },
+      { label: "Interaction", description: "Hover any dot for a tooltip showing the exact calendar date of that week." },
+    ],
+    results:
+      "A single-page, zero-dependency interactive that renders the full life grid instantly in any browser. Statistics sourced from WHO, NASA, UN, and IPCC. Designed to be a quiet, reflective tool rather than a data dashboard.",
+    github: "https://github.com/codex83/life-in-weeks",
+  },
+  {
     slug: "nlp-fundamentals",
     name: "NLP Fundamentals",
     tagline: "A progression through core NLP skills — scraping, regex, preprocessing, and an honest domain-shift failure.",
