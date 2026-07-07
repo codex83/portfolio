@@ -304,28 +304,6 @@ export const projects: Project[] = [
     github: "https://github.com/codex83/databricks-retail-forecasting",
   },
   {
-    slug: "life-in-weeks",
-    name: "Life in Weeks",
-    tagline: "Your entire life, mapped as a grid of dots — one per week.",
-    problem:
-      "Abstract concepts of time and mortality are hard to internalize. This visualization makes them visceral: enter your birth date and see every week of a ~66-year life as a single dot — filled for weeks already lived, empty for weeks ahead. Alongside the grid, computed statistics put your time in personal, societal, and cosmic context.",
-    tools: [
-      { category: "Frontend", items: ["Vanilla HTML", "CSS Grid", "CSS custom properties", "CSS animations"] },
-      { category: "Logic", items: ["JavaScript ES6", "requestAnimationFrame", "Local date parsing (timezone-safe)"] },
-    ],
-    flow: [
-      { label: "Input Screen", description: "User enters birth date; validation rejects future dates and triggers error feedback." },
-      { label: "Date Calculation", description: "Local-date parsing (avoids UTC timezone issues) computes weeks lived, current week index, and weeks remaining." },
-      { label: "Grid Rendering", description: "52 columns × 66 rows CSS grid built programmatically; dots colored by lived/current/future state." },
-      { label: "Progressive Reveal", description: "requestAnimationFrame loop reveals dots in sequence for a dramatic entrance animation." },
-      { label: "Statistics Cards", description: "Three card panels compute personal metrics (heartbeats, breaths, steps), societal context (global births, GDP), and cosmic scale (space distance traveled, full moons, supernovas)." },
-      { label: "Interaction", description: "Hover any dot for a tooltip showing the exact calendar date of that week." },
-    ],
-    results:
-      "A single-page, zero-dependency interactive that renders the full life grid instantly in any browser. Statistics sourced from WHO, NASA, UN, and IPCC. Designed to be a quiet, reflective tool rather than a data dashboard.",
-    github: "https://github.com/codex83/life-in-weeks",
-  },
-  {
     slug: "nlp-fundamentals",
     name: "NLP Fundamentals",
     tagline: "A progression through core NLP skills — scraping, regex, preprocessing, and an honest domain-shift failure.",
